@@ -9,11 +9,14 @@ export default class TargetAccountComp extends LightningElement {
         
     };
     @track queryList;
+    condition;
 
 
     executeQuery(){
         console.log('Came to get Query');
         this.queryList=this.template.querySelector("c-query-component").getQueryList(); 
+        this.condition=this.template.querySelector("c-query-component").getCondition(); 
+        
         console.log(JSON.stringify(this.queryList)); 
         searchAccount({
             queryJson:JSON.stringify(this.queryList),

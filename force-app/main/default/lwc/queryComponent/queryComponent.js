@@ -24,6 +24,12 @@ export default class QueryComponent extends LightningElement {
         return this.queryList;  
       }  
 
+      @api 
+      getCondition(){  
+            
+          return this.condition;  
+        }   
+
     handleinit(){
         getMetadata().then(data =>{
 
