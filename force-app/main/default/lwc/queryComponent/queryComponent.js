@@ -1,6 +1,5 @@
-import { LightningElement, track } from 'lwc';
+import { LightningElement, track ,api} from 'lwc';
 import getMetadata from '@salesforce/apex/queryComponentController.getMetadata'; 
-import searchAccount from '@salesforce/apex/queryComponentController.searchAccount'; 
 
 export default class QueryComponent extends LightningElement {
 
@@ -18,6 +17,12 @@ export default class QueryComponent extends LightningElement {
     changehandler(event){
         this.condition=event.target.value;
     }
+    
+    @api 
+    getQueryList(){  
+          
+        return this.queryList;  
+      }  
 
     handleinit(){
         getMetadata().then(data =>{
@@ -61,15 +66,8 @@ export default class QueryComponent extends LightningElement {
 
     }
 
-    executeQuery(){
-        searchAccount({
-            queryJson:JSON.stringify(this.queryList),
-            logic:this.condition
-        }).then(data =>{
+    
 
-        }).catch(error =>{
-
-        });
-    }
+   
 
 }
