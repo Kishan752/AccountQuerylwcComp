@@ -1,0 +1,65 @@
+<template>
+    
+    <template if:true={render}>
+    <div class="slds-grid slds-gutters">
+        <div class="slds-col slds-size_1-of-5">
+            {serialnumber}
+        </div>
+        <div class="slds-col slds-size_1-of-5">
+            <select class="slds-select" name = "optionSelect" data-name="objectName" onchange={changehandler} >
+                <option  value="">--none--</option>
+                <template for:each={ObjectNameSet} for:item="item">
+                    <option key={item} value={item}>{item}</option>
+                </template>
+
+            </select> 
+        </div>    
+
+        <div class="slds-col slds-size_1-of-5">
+            <select class="slds-select" name = "optionSelect" data-name="fieldName" onchange={changehandler} >
+                <option  value="">--none--</option>
+                <template for:each={fieldSet} for:item="item">
+                    <option key={item} value={item}>{item}</option>
+                </template>
+
+            </select> 
+        </div>   
+        
+        <div class="slds-col slds-size_1-of-5">
+            <select class="slds-select" name = "optionSelect" data-name="OperatorName" onchange={changehandler} >
+                <option  value="">--none--</option>
+                <template for:each={operatorSet} for:item="item">
+                    <option key={item} value={item}>{item}</option>
+                </template>
+
+            </select> 
+        </div>   
+        
+        <div class="slds-col slds-size_1-of-5">
+            <template if:true={rendervaluefield}>
+              <template if:false={renderpicklist}>
+                <lightning-input type="text"  value="" data-name="textName" onchange={changehandler} variant="label-hidden">
+
+                </lightning-input>
+              </template>
+              <template if:true={renderpicklist}>
+                <select class="slds-select" name = "optPickvalue" data-name="picvalueName" onchange={changehandler} >
+                    <option  value="">--none--</option>
+                    <template for:each={pickValues} for:item="item">
+                        <option key={item} value={item}>{item}</option>
+                    </template>
+    
+                </select> 
+            </template>
+            </template>
+            
+           
+        </div>    
+
+    </div>
+   
+    
+
+</template>
+
+</template>

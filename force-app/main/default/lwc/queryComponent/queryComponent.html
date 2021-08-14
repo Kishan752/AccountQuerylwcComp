@@ -1,0 +1,45 @@
+<template>
+    
+
+    <div class='slds-text-align_left  slds-p-left_small'>
+
+        <lightning-button variant='brand' label='Add Attribute' onclick={handleAddAttribute} disabled={btnDisabled} 
+                        ></lightning-button>
+    </div>
+    <div class="slds-grid slds-gutters slds-box slds-box_x-small slds-theme_shade">
+        <template for:each={tableHeaders} for:item="item">
+            <div key={item} class="slds-col slds-size_1-of-5">
+                {item}
+              </div>
+        </template>
+        
+        
+      </div>
+      <template if:true={renderIterator}>
+      <div class='QueryComps'>
+          <template for:each={querycount} for:item="item">
+              <div key={item}>
+                      <c-query-iterator response-data={respData} serialnumber={item} onfilter={handleFilter}></c-query-iterator>
+              </div>
+          </template>
+
+      </div>
+      </template>
+      <div class="slds-grid slds-gutters slds-box slds-box_x-small slds-theme_shade">
+            <div class="slds-col slds-size_1-of-3">
+                <lightning-input type="text"  value={condition} data-name="textName" onchange={changehandler} variant="label-hidden">
+
+                </lightning-input>
+            </div>
+        
+        
+      </div>
+
+      <div class='slds-text-align_right slds-box slds-box_x-small slds-theme_shade slds-m-top_small slds-p-top_small slds-p-left_small'>
+
+        <lightning-button variant='brand' label='Execute Query' onclick={executeQuery} 
+                        ></lightning-button>
+        </div>
+
+      
+</template>
