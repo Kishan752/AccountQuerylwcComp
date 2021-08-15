@@ -19,6 +19,20 @@
                         ></lightning-button>
         </div>
 
+        
+
+        <template if:true={renderPagination}>
+            <div class='slds-text-align_left slds-theme_shade slds-m-top_small'>
+              {StrMsg}
+            </div>
+         <template if:true={renderTable}>
+
+            <c-pagination-table-comp accountdata={data}></c-pagination-table-comp>
+
+         </template> 
+            <c-generic-pagination lstaccount={lstAccount} onsync={handleSyncData} ></c-generic-pagination>
+        </template>
+
 
     
 
