@@ -5,19 +5,19 @@
         </div>
         <div class="slds-col slds-size_1-of-12">
            <lightning-button label="first" icon-name="utility:left" icon-position="left"
-           disabled={checkfirst}></lightning-button>
+           disabled={checkfirst} onclick={onFirst}></lightning-button>
         </div>
         <div class="slds-col slds-size_1-of-12">
             <lightning-button icon-name="utility:chevronleft" icon-position="left"
-            disabled={checkfirst} ></lightning-button>
+            disabled={checkfirst} onclick={onPrev} ></lightning-button>
          </div>
          <div class="slds-col slds-size_1-of-12">
             <lightning-button icon-name="utility:chevronright" icon-position="right"
-            onclick={onNext}></lightning-button>
+            onclick={onNext} disabled={checkNext}></lightning-button>
          </div>
          <div class="slds-col slds-size_1-of-12">
             <lightning-button label="last" icon-name="utility:right" icon-position="right"
-            ></lightning-button>
+            onclick={onLast} disabled={checkNext}></lightning-button>
          </div>
     </div>
 </template>

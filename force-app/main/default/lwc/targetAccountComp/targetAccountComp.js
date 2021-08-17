@@ -16,6 +16,7 @@ export default class TargetAccountComp extends LightningElement {
     renderPagination=false;
     renderTable=false;
     @track data=[];
+    recCount;
 
 
     executeQuery(){
@@ -32,6 +33,7 @@ export default class TargetAccountComp extends LightningElement {
          this.respData=data;
          this.lstAccount=data.lstAccount;
          this.StrMsg=data.strmsg;
+         this.recCount=data.count
          this.renderPagination=true;
         }).catch(error =>{
             console.log('Error'); 
