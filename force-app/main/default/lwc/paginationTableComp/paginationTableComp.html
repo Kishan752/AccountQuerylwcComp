@@ -1,0 +1,22 @@
+<template>
+    
+    <template if:true={isRender}>
+        <div class="slds-scrollable">
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_1-of-5">
+
+                </div>
+                <template for:each={myheaders} for:item="item">
+                    <div key={item} class="slds-col slds-size_1-of-5">
+                        {item}
+                    </div>
+                </template>
+            </div>
+            <template for:each={accountdata} for:item="item">
+              <c-table-row-comp key={item} record={item} ></c-table-row-comp>
+            </template>
+           
+        </div>
+    </template>
+
+</template>

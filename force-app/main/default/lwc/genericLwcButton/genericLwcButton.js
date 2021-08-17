@@ -6,10 +6,7 @@ export default class GenericLwcButton extends LightningElement {
     @api lisDisbaled=false;
     @api method;
 
-    fireEvent(){
-        let clickEvent = new CustomEvent('button', { detail: 'ButtonCalled' });
-        this.dispatchEvent(clickEvent);
-    }
+    
     callParentMethod(){
 
         this.method()
