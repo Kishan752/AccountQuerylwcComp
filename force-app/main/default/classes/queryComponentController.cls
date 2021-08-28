@@ -1,6 +1,30 @@
 public class queryComponentController {
     
     
+    
+    
+    @auraEnabled
+    public static void createMapping(String accjson,String recId){
+            list<AccWrapper> wrapper=(List<AccWrapper>)JSON.deserialize(accjson, list<AccWrapper>.class);    
+        list<Incentive_mapping__c> imps=new list<Incentive_mapping__c>();
+        for(AccWrapper s:wrapper){
+            Incentive_mapping__c ic=new Incentive_mapping__c();
+            ic.Account__c=s.Id;
+            ic.Incentive_Schema__c=recId;
+            ic.Status__c='Active';
+            imps.add(ic);
+            
+        }
+        
+        insert imps;
+        
+    }
+    
+    public class AccWrapper{
+      @AuraEnabled
+      public String Id;
+    }
+    
     @auraEnabled
     public static MetadataWrapper getMetadata(){
         
@@ -36,7 +60,7 @@ public class queryComponentController {
     }
     
     @auraEnabled
-    public static void searchAccount(String queryJson,String logic){
+    public static ResponseWrapper searchAccount(String queryJson,String logic){
     Map<String,String> OperatorMap = new Map<String,String>();
     OperatorMap.put('equals','=');
     OperatorMap.put('not equals to','!=');
@@ -79,7 +103,12 @@ public class queryComponentController {
             count++;
         }
         System.debug(Query);
-        System.debug(Database.query(Query));
+        List<Account> lsAccount=(list<Account>)Database.query(Query);
+        ResponseWrapper wrapper=new ResponseWrapper();
+        wrapper.lstAccount=lsAccount;
+        wrapper.count=lsAccount.size();
+        wrapper.strmsg='Total account found : '+lsAccount.size();
+        return wrapper;
     }
     
     public class queryClass{
@@ -92,6 +121,20 @@ public class queryComponentController {
         
         
     }
+    
+    public class ResponseWrapper{
+    @AuraEnabled
+    public list<Account> lstAccount;
+    @AuraEnabled
+    public Integer count;
+    
+    @AuraEnabled
+    public String strmsg;    
+    
+        
+    }
+    
+    
     
     
 }

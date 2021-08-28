@@ -13,7 +13,7 @@
                 </template>
             </div>
             <template for:each={accountdata} for:item="item">
-              <c-table-row-comp key={item} record={item} ></c-table-row-comp>
+              <c-table-row-comp key={item} record={item} check={item.check} checkk={item.check} ></c-table-row-comp>
             </template>
            
         </div>
