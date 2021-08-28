@@ -1,13 +1,108 @@
-import { api, LightningElement } from 'lwc';
+import { wire, track, api, LightningElement } from 'lwc';
+import BOATMC from '@salesforce/messageChannel/QuantityMessageChannel__c';
+import {
+    subscribe,
+    unsubscribe,
+    APPLICATION_SCOPE,
+    MessageContext
+  } from 'lightning/messageService';
 
 export default class GenericPagination extends LightningElement {
-    @api lstaccount;
+    lstaccount=[];
+    @api serverdata;
     pageNumber=1;
     pageSize=5;
     @api count;
+    subscription = null;
+    @track orderedProduct=[];
+    @track selectedAccounts=[];
 
+    @wire(MessageContext)
+    messageContext;
+
+     
     connectedCallback(){
+        
+        this.lstaccount=JSON.parse(JSON.stringify(this.serverdata));
         this.handleinit();
+        if (this.subscription) {
+            return;
+        }
+        this.subscribeMC();
+    }
+    @api
+    getorderedProduct(){
+         return this.orderedProduct;
+    }
+    
+    @api
+    getSelectedAccount(){
+         return this.selectedAccounts;
+    }
+
+
+    subscribeMC() {
+        // local boatId must receive the recordId from the message
+        this.subscription = subscribe(
+            this.messageContext,
+            BOATMC,
+            (message) => this.handlemessage(message),
+            {scope: APPLICATION_SCOPE}
+        );
+    }
+
+    handlemessage(msg){
+      console.log('handling message');
+      console.log(JSON.stringify(msg));
+      let totalPrice=0;
+      if(msg.isCheckBoxChannel){
+          console.log('hola is lways amigo');
+          for(let i=0;i<this.lstaccount.length;i++){
+            if(this.lstaccount[i].Id==msg.pId){
+                console.log('Hola amigo match');
+                this.lstaccount[i].check=msg.check;
+                console.log(this.lstaccount[i]);
+            }
+        }
+        if(msg.check){
+          this.selectedAccounts.push({Id:msg.pId});
+        }
+        else{
+            console.log('uncheck happnd'+msg.pId);
+            this.selectedAccounts= this.selectedAccounts.filter(el => el.Id !== msg.pId );
+        }
+        console.log(JSON.stringify(this.selectedAccounts));
+
+      }
+      else{
+
+      
+      for(let i=0;i<this.lstaccount.length;i++){
+          if(this.lstaccount[i].Id==msg.pId){
+              console.log('Hola amigo match');
+              this.lstaccount[i].Quantity=msg.quantity;
+          }
+        totalPrice+=this.lstaccount[i].Quantity*this.lstaccount[i].Price;
+      }
+      let index=-1;
+      for(let i=0;i<this.orderedProduct.length;i++){
+           if(this.orderedProduct.Id == msg.pId){
+            index=i;
+           }
+      }
+
+      if(index == -1){
+        this.orderedProduct.push({Id:msg.pId,Quantity:msg.quantity,totalPrice:msg.totalPrice});
+      }
+      else{
+        this.orderedProduct[index].Quantity=msg.quantity;
+      }
+      
+
+      let clickEvent = new CustomEvent('total', { detail: totalPrice });
+        this.dispatchEvent(clickEvent);
+    }
+
     }
 
     get checkfirst(){
@@ -70,6 +165,7 @@ export default class GenericPagination extends LightningElement {
         console.log(start+' @@@@@ '+end);
         let data=[];
         for(start;start<upperLimit;start++){
+            
             data.push(this.lstaccount[start]);
         }
         let clickEvent = new CustomEvent('sync', { detail: data });
@@ -82,7 +178,7 @@ export default class GenericPagination extends LightningElement {
         let data=[];
         let upperLimit=this.count > 5 ? 5 : this.count;
         for(let i=0;i<upperLimit;i++){
-            data.push(this.lstaccount[i]);
+           data.push(this.lstaccount[i]);
         }
         
         let clickEvent = new CustomEvent('sync', { detail: data });

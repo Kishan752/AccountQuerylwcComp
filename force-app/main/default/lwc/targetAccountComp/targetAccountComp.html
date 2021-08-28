@@ -27,10 +27,23 @@
             </div>
          <template if:true={renderTable}>
 
-            <c-pagination-table-comp accountdata={data}></c-pagination-table-comp>
+            <c-pagination-table-comp accountdata={data} ></c-pagination-table-comp>
 
          </template> 
-            <c-generic-pagination lstaccount={lstAccount} onsync={handleSyncData} count={recCount}></c-generic-pagination>
+            <c-generic-pagination serverdata={lstAccount} onsync={handleSyncData} count={recCount}></c-generic-pagination>
+            <div class="slds-grid slds-gutters slds-m-top_small">
+                <div class="slds-col slds-size_3-of-4">
+                   
+                </div>
+                <div class="slds-col slds-size_1-of-4">
+                    <lightning-button variant="brand" label="Save" onclick={handleSave}
+                    ></lightning-button>
+                </div>
+        
+            </div>
+            
+
+
         </template>
 
 
